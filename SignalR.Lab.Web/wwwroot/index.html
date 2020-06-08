@@ -14,9 +14,9 @@
     <script>
         $(function () {
             var connection = new signalR.HubConnectionBuilder()
-                                 .withUrl("/eventHub")
+                                 .withUrl("/valuesHub")
                                  .build();
-            connection.on("SendNoticeEventToClient", function (message) {
+            connection.on("Add", function (message) {
                 $("#events").append("<li>" + message + "</li>");
             });
 

@@ -20,6 +20,10 @@ namespace SignalR.Lab.Web
             services.AddSignalR();
 
             services.AddSingleton<EventReceiverService>();
+
+            services.AddCors();
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,9 +42,18 @@ namespace SignalR.Lab.Web
             app.UseSignalR(routes => 
             {
                 routes.MapHub<EventHub>("/eventHub");
+                routes.MapHub<ValuesHub>("/valuesHub");
             });
 
-           
+            app.UseCors(options =>
+                options
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            //.AllowCredentials());
+
+            app.UseMvc();
+
         }
     }
 }
