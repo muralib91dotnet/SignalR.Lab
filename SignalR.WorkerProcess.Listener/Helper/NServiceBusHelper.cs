@@ -16,13 +16,14 @@ namespace SignalR.WorkerProcess.Listener.Helper
             var serviceBusConfig = new ServiceBusConfig();
             configSection.Bind(serviceBusConfig);
 
-            EndpointConfiguration endpointConfiguration = new EndpointConfiguration(serviceBusConfig.ToEndpoint);
+            EndpointConfiguration endpointConfiguration = new EndpointConfiguration(serviceBusConfig.FromEndpointQueue);
+            endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
+            endpointConfiguration.EnableInstallers();
             //TODO: Factory Wrapper class for UseTransport<TransportType> if TransportType to be passed & injected from config
             var transport = endpointConfiguration.UseTransport<RabbitMQTransport>();
             transport.UseDirectRoutingTopology();
             transport.ConnectionString(serviceBusConfig.ServiceBusTransportString);
-            endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
-            //endpointConfiguration.EnableInstallers();
+
 
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.AuditProcessedMessagesTo("auditqueue");

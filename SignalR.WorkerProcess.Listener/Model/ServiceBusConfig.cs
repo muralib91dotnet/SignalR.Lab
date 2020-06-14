@@ -6,7 +6,8 @@ namespace SignalR.WorkerProcess.Listener.Model
 {
     public class ServiceBusConfig
     {
-        public string ToEndpoint { get; set; }
+        public string FromEndpointQueue { get; set; }
+        public string ToEndpointQueue { get; set; }
 
         public string ServiceBusTransportString { get; set; }
 

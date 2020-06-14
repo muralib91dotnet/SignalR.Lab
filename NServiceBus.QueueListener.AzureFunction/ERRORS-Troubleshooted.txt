@@ -1,0 +1,14 @@
+ The 'RabbitMqListener' function is in error: Microsoft.Azure.WebJobs.Host: Error indexing method 'RabbitMqListener'. RabbitMQ.Client: The AMQP operation was interrupted: AMQP close-reason, initiated by Peer, code=406, text="PRECONDITION_FAILED - inequivalent arg 'durable' for queue 'example.server' in vhost '/': received 'false' but current is 'true'", classId=50, methodId=10, cause=.
+Hosting environment: Production
+
+
+
+
+Job host started
+[10-06-2020 13:58:19] The 'RabbitMqListener' function is in error: Unable to configure binding 'inputMessage' of type 'rabbitMQTrigger'. This may indicate invalid function.json properties. Can't figure out which ctor to call.
+
+
+System.Exception: 'Could not find metadata for 'System.Text.Json.JsonElement'.
+Ensure the following:
+1. 'System.Text.Json.JsonElement' is included in initial scanning. 
+2. 'System.Text.Json.JsonElement' implements either 'IMessage', 'IEvent' or 'ICommand' or alternatively, if you don't want to implement an interface, you can use 'Unobtrusive Mode'.'

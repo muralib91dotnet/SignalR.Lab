@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SignalR.WorkerProcess.Listener.Model;
 
 namespace SignalR.WorkerProcess.Listener
 {

@@ -39,9 +39,9 @@ namespace SignalR.Lab.Web.Controllers
         // POST api/values
         [HttpPost]
         [Route("addvalue")]
-        public async void Post([FromBody] string value)
+        public async void Post([FromBody] object value)
         {
-            Source.Add(value);
+            Source.Add(value.ToString());
             await _hubContext.Clients.All.SendAsync("Add", value);
         }
 

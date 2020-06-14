@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.SignalR.Client;
 using NServiceBus;
 using Microsoft.Extensions.Configuration;
 using SignalR.WorkerProcess.Listener.Helper;
+using SignalR.WorkerProcess.Listener.Model;
+using SignalR.WorkerProcess.Message.Model;
+using Newtonsoft.Json;
 
 namespace SignalR.WorkerProcess.Listener
 {
@@ -27,19 +30,33 @@ namespace SignalR.WorkerProcess.Listener
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var endpointConfiguration = NServiceBusHelper.GetEndpointConfiguration(_config.GetSection("NServiceBusSettings"));
+            var configSection = _config.GetSection("NServiceBusSettings");
+            var serviceBusConfig = new ServiceBusConfig();
+            configSection.Bind(serviceBusConfig);
+            var endpointConfiguration = NServiceBusHelper.GetEndpointConfiguration(configSection);
             endpointConfiguration.RegisterComponents(
-            registration: configureComponents =>
-            {
-                //configureComponents.RegisterSingleton(new LoggingHandler(_logger));
-            });
-            var endpointInstance = await Endpoint.Start(endpointConfiguration).ConfigureAwait(false);
+                registration: configureComponents =>
+                {
+                    //configureComponents.RegisterSingleton(new LoggingHandler(_logger));
+                }
+            );
 
+            var conventions = endpointConfiguration.Conventions();
+            conventions.DefiningCommandsAs(
+                type =>
+                {
+                    return type.Namespace == "SignalR.WorkerProcess.Message.Model" || type.Namespace == "System" || type.Namespace == "System.Text.Json.JsonElement";
+                }
+            );
+            var endpointInstance = await Endpoint.Start(endpointConfiguration).ConfigureAwait(false);
             await _valueHubClient.StartHubConnection(new Dictionary<string, Action<object>> {
                 { 
                     "Add", async (value) => {
+
+                        var exampleMessage = JsonConvert.DeserializeObject<ExampleMessage>(value.ToString());
                         //Push to Nservicebus-RabbitMQ Queue
-                        await endpointInstance.Send(value);
+                        //await endpointInstance.Send(serviceBusConfig.ToEndpointQueue,exampleMessage);
+                        await endpointInstance.Send(serviceBusConfig.ToEndpointQueue,exampleMessage.Value);
                     } 
                 }
             });
