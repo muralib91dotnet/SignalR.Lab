@@ -1,0 +1,15 @@
+{
+  "generatedBy": "Microsoft.NET.Sdk.Functions.Generator-1.0.7",
+  "configurationSource": "attributes",
+  "bindings": [
+    {
+      "type": "eventHubTrigger",
+      "eventHubName": "myEventHubName",
+      "connection": "MyEventHubConnectionString",
+      "name": "myData"
+    }
+  ],
+  "disabled": false,
+  "scriptFile": "../bin/FunctionAppTestDirect.dll",
+  "entryPoint": "FunctionAppTestDirect.EhTriggerFunction.Run"
+}
