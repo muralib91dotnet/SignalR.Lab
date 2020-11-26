@@ -1,0 +1,39 @@
+node_modules
+package-lock.json
+
+# Build outputs
+dist
+obj
+bin
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.lock*
+
+# Visual Studio cache files
+# files ending in .cache can be ignored
+.vs
+*.[Cc]ache
+# but keep track of directories ending in .cache
+!?*.[Cc]ache/
+*.ide
+*.[Cc]ache.*
+*.dtbcache.*
+*.dtbcache
+*.sqlite
+
+# Others
+ClientBin/
+~$*
+*~
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+*.pfx
+*.publishsettings
+orleans.codegen.cs
+SignalR.WorkerProcess.Listener/Properties/launchSettings.json
